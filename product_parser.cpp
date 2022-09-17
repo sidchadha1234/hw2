@@ -10,6 +10,7 @@ using namespace std;
 
 ProductParser::ProductParser()
 {
+//take lines pf text and put them into the darabase
 
 }
 
@@ -130,13 +131,19 @@ std::string ProductBookParser::categoryID()
  */
 Product* ProductBookParser::makeProduct()
 {
+//ask TA how to go about this 
+//make a constructor and return 
+//make book object with nessecary parameters
 
+    Product* g = new Book(categoryID(), prodName_, price_,qty_,isbn_,author_);
+    return g;
 
 }
 
 
 ProductClothingParser::ProductClothingParser()
 {
+
 }
 
 Product* ProductClothingParser::parseSpecificProduct(std::string category,
@@ -186,7 +193,8 @@ std::string ProductClothingParser::categoryID()
 Product* ProductClothingParser::makeProduct()
 {
 
-
+    Product* g = new Clothing(categoryID(), prodName_, price_,qty_,size_, brand_);
+    return g;
 
 }
 
@@ -246,5 +254,7 @@ std::string ProductMovieParser::categoryID()
 Product* ProductMovieParser::makeProduct()
 {
 
+    Product* g = new Movie(categoryID(), prodName_, price_,qty_,genre_, rating_);
+    return g;
 
 }
