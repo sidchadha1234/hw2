@@ -18,11 +18,10 @@ class Movie:public Product{
        std::string displayString() const;
        void dump(std::ostream& os) const;
    private:
-      std::string category = "Movie";
+      std::string category = "movie";
       std::string bGenre;
       std::string bRating;
-      double price;
-      int quantity;
+
 
       
    //   string name;

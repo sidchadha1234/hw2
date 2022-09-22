@@ -4,12 +4,8 @@
 #include "util.h"
 #include "product.h"
 
-
-// importing a whole namespace in a header is frowned upon
-// this will at least let us write 'string'/'vector' below
 using std::string;
-//using std::vector;
-//using std::set;
+
 
 class Clothing:public Product{
    public:
@@ -18,16 +14,7 @@ class Clothing:public Product{
        std::string displayString() const;
        void dump(std::ostream& os) const;
    private:
-      std::string category = "Clothing";
+      std::string category = "clothing";
       std::string bSize;
       std::string bBrand;
-      double price;
-      int quantity;
-
-      
-   //   string name;
-  /*    string userName;
-      double creditAmount;
-      int typePrime;
-      */
 };

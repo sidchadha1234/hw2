@@ -14,12 +14,11 @@ template <typename T>
 
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
-//one singualr for loop
   std::set<T> result;
   typename std::set<T>::iterator it;
   //loop over s1, check to see if its in s2, then it goes in the solution
   for(it=s1.begin(); it != s1.end(); ++it){
-    if(s2.find(*it)){
+    if(s2.find(*it)!=s2.end()){
       result.insert(*it);
     }
   }
@@ -27,12 +26,13 @@ std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
   
 }
 
+
 template <typename T>
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
 //make a copy of s1, put everything from s2 into it
   std::set<T> s1copy = s1;
-  typename std::set<T>::iterator it; //template might be problem
+  typename std::set<T>::iterator it; 
   for(it=s2.begin(); it != s2.end(); ++it){
       s1copy.insert(*it);
   }

@@ -131,9 +131,7 @@ std::string ProductBookParser::categoryID()
  */
 Product* ProductBookParser::makeProduct()
 {
-//ask TA how to go about this 
-//make a constructor and return 
-//make book object with nessecary parameters
+
 
     Product* g = new Book(categoryID(), prodName_, price_,qty_,isbn_,author_);
     return g;

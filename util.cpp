@@ -15,28 +15,30 @@ std::string convToLower(std::string src)
 
 /** Complete the code to convert a string containing a rawWord
     to a set of words based on the criteria given in the assignment **/
-//    template <typename T>
+
 std::set<std::string> parseStringToWords(string rawWords)
 {   
-  //split it based on whitesapce, split it based on puntuation, and if that is greater than 2, put into parsed stirng
-    //use getline to split it based on whitespace 
-    //put results into a set
-    //copy chars from front of the string till you got punctuation
-    //check to see if length is 2 or greater
-    //keep advancing till you get a non punctuation character 
+  
     std::set<std::string> parsedString;
     string r = "";
     for(unsigned int i = 0; i < rawWords.length(); i++){
-        if(ispunct(rawWords[i] !=0) && isspace(rawWords[i]) != 0){
+      //check all the nessecary conditions and insert the current string you have
+        if(ispunct(rawWords[i]) || isspace(rawWords[i])){
           if(r.length() >= 2){
-            parsedString.insert(r);
+            parsedString.insert(convToLower(r)); //make sure its lowercase
+            //reset the string and move on
             r="";
           }
         }
         else{
+          //if conditions not met, just keep adding to string r 
           r+=rawWords[i];
         }
     }
+  if(r.size()>=2){ //if r is still lowercase at the end, convert it to lower and insert it in the new set
+    convToLower(r);
+    parsedString.insert(convToLower(r));
+  }
     return parsedString;
 }
 
