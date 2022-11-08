@@ -36,7 +36,8 @@ Clothing::Clothing(const std::string category, const std::string name_, double p
   std::string g;
   std::string pricestr = std::to_string(price_);
   std::string quantitystr = std::to_string(qty_);
-
+  pricestr = pricestr.substr(0, pricestr.find(".")+3);
+  quantitystr = quantitystr.substr(0,quantitystr.find(".")+3);    
   g+=(name_+"\n" + "Size: "+bSize + " Brand: " + bBrand+"\n" +pricestr+" " + quantitystr + " left.");
   return g;
   }

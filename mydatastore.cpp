@@ -19,14 +19,20 @@ MyDataStore::MyDataStore()
 }
 MyDataStore::~MyDataStore(){
 //Using .clear to delete the whole set/map
-   prodset.clear();
-   stringtoproduct.clear();
-   nametouser.clear();
-   usertocart.clear();
+  for(unsigned int i = 0; i < prodset.size(); i++){
+    delete prodset[i];
+  }
+  map<string, User*>::iterator it;
+  for(it = nametouser.begin(); it!=nametouser.end();++it){
+    delete it->second;
+  }
 }
+
 void MyDataStore::addProduct(Product* p){
+
   prodset.push_back(p);
   std::set<std::string> g = p->keywords();
+
   for(auto i:g){ 
   //if the product exists in the set just push it back
     if(stringtoproduct.find(i) != stringtoproduct.end()){ 
@@ -113,8 +119,8 @@ void MyDataStore::viewCart(std::string username){
   if(usertocart.find(username)!=usertocart.end()){
     int count = 1;
     
-    for(Product* i:usertocart[username]){
-      cout<<"Item Number " << count<<endl;
+    for(auto i:usertocart[username]){
+      cout<<"Item: " << count<<endl;
       cout<<i->displayString()<<endl;
       count++;
     }
@@ -132,7 +138,7 @@ bool MyDataStore::isValidUserName(std::string username){
   //check to see if the username exists in the nametouser database
   if(nametouser.find(username)!=nametouser.end()){
     return true;
-    cout<<"ERROR: USERNAME DOES NOT EXIST";
+    //cout<<"ERROR: USERNAME DOES NOT EXIST";
   }
   return false;
 }
@@ -143,7 +149,6 @@ bool MyDataStore::isValidUserName(std::string username){
 *  type 1 = OR search (union of results for each term)
 */
   std::vector<Product*> MyDataStore::search(std::vector<std::string>& terms, int type){
-    //int count = 0;
     //a vector of set of products, each set is for a certain keyword
     
     std::vector<std::set<Product*>> result;
@@ -153,15 +158,11 @@ bool MyDataStore::isValidUserName(std::string username){
     for(std::vector<std::string>::iterator it=terms.begin(); it != terms.end(); ++it){
       //Add the set of products that match a given keyword to the vector of the set of products
       if(stringtoproduct.find(*it)!=stringtoproduct.end()){
+          
           result.push_back(stringtoproduct[*it]);
       }
-      
-      else {
-        //if the type is and, and one term is invalid, it should end automatically 
-        if(type == 0) return resprod;
-       
-      }
     }
+
 
     if(result.size()==0) return resprod; //if the size is 0 and the type is or, it should end automatically
 
@@ -173,6 +174,7 @@ bool MyDataStore::isValidUserName(std::string username){
           result[0] = setUnion(result[0], result[i]);
         }    
     }
+
     //first index is just a vector so push that into a simple vector and return it 
     for(std::set<Product*>::iterator it=result[0].begin(); it != result[0].end(); ++it){
       resprod.push_back(*it);
@@ -182,10 +184,16 @@ bool MyDataStore::isValidUserName(std::string username){
   }
   void MyDataStore::dump(std::ostream& ofile){
     //simply just dump all the updated data into a txt file, should have a seperated one for users and products
+        ofile<<"<products>\n";
         for(auto i:prodset){
           i->dump(ofile);
         }
+        ofile<<"</products>\n";
+        ofile<<"<users>\n";
         for(std::map<std::string, User*>::iterator it=nametouser.begin(); it != nametouser.end(); ++it){
           it->second->dump(ofile);
         }
+
+        ofile<<"</users>\n";
+
     }

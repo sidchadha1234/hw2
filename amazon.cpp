@@ -100,31 +100,37 @@ int main(int argc, char* argv[])
                     ofile.close();
                 }
                 done = true;
+
             }
-	    /* Add support for other commands here */
+      /* Add support for other commands here */
             else if(cmd == "ADD"){ //add to cart
                 string username ="";
                 ss >> username;
                 username = convToLower(username);
                 size_t g;
                 ss>>g;
-                if(g<=0 || g>hits.size()){
-                  cout<<"ERROR: WRONG INDEX" << endl;
+                if(g<=0 || g>hits.size() || !ds.isValidUserName(username)){
+                  cout<<"Invalid Request" << endl;
                   continue;
+                }else{
+                  ds.addCart(username, hits[g-1]);
                 }
-                ds.addCart(username, hits[g-1]);
 
             }
-            else if(cmd == "VIEWCART"){ //view the cart
+            else if(cmd == "VIEWCART"){ //view the cart 
                 string username ="";
                 ss >> username;
+                if(!ds.isValidUserName(username)) cout<<"invalid username"<<endl;
                 username = convToLower(username);
                 ds.viewCart(username);
             }else if(cmd == "BUYCART"){ //buy the cart
               string username = " ";
               ss>>username;
-              username = convToLower(username);
-              ds.buyCart(username);
+              if(!ds.isValidUserName(username)) cout<<"invalid username"<<endl;
+              else{
+                username = convToLower(username);
+                ds.buyCart(username);
+              }
             }
             else {
                 cout << "Unknown command" << endl;
@@ -139,8 +145,8 @@ void displayProducts(vector<Product*>& hits)
 {
     int resultNo = 1;
     if (hits.begin() == hits.end()) {
-    	cout << "No results found!" << endl;
-    	return;
+      cout << "No results found!" << endl;
+      return;
     }
     std::sort(hits.begin(), hits.end(), ProdNameSorter());
     for(vector<Product*>::iterator it = hits.begin(); it != hits.end(); ++it) {

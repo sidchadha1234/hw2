@@ -22,14 +22,15 @@ Book::Book(const std::string category, const std::string name_, double price, in
 
  std::set<std::string> Book::keywords() const{
    //insert all the keywords into set, beside name, parse the name into a set, create a union betw other keywords and parsed name, and return that result
-  set<std::string> hits;
-  set<std::string> inputauth;
-  inputauth = parseStringToWords(convToLower(bAuthor));
-  inputauth.insert(bISBN);
-  set<std::string> nameparsed;
-  nameparsed = parseStringToWords(convToLower(name_));
-  hits = setUnion(inputauth, nameparsed);
-  return hits;
+    set<std::string> hits;
+    set<std::string> inputauth;
+    
+    inputauth = parseStringToWords(convToLower(bAuthor));
+    inputauth.insert(bISBN);
+    set<std::string> nameparsed;
+    nameparsed = parseStringToWords(convToLower(name_));
+    hits = setUnion(inputauth, nameparsed);
+    return hits;
   }
   
   
@@ -40,6 +41,8 @@ Book::Book(const std::string category, const std::string name_, double price, in
   std::string g;
   std::string pricestr = std::to_string(price_);
   std::string quantitystr = std::to_string(qty_);
+  pricestr = pricestr.substr(0, pricestr.find(".")+3);
+  quantitystr = quantitystr.substr(0,quantitystr.find(".")+3);
   g+=(name_+"\n" + "Author: "+bAuthor + " ISBN: " + bISBN+"\n" +pricestr+" " + quantitystr + " left.");
   return g;
   }
@@ -47,7 +50,7 @@ Book::Book(const std::string category, const std::string name_, double price, in
 
  void Book::dump(std::ostream& os) const{
     //dump all the components of a book
-    os << category << "\n" << name_ << "\n" << price_ << "\n" << qty_ << "\n" << bAuthor << "\n" << bISBN << endl;
+    os << category << "\n" << name_ << "\n" << price_ << "\n" << qty_ << "\n" << bISBN << "\n" << bAuthor << endl;
 
 }
 
